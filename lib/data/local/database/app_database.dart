@@ -24,13 +24,16 @@ class AppDatabase {
 
   Future _createDB(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE tasks (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT NOT NULL,
-        isCompleted INTEGER NOT NULL,
-        dueDate TEXT
-      )
-    ''');
+  CREATE TABLE tasks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    description TEXT,
+    isCompleted INTEGER NOT NULL,
+    dueDate TEXT,
+    category INTEGER NOT NULL DEFAULT 0,
+    priority TEXT
+  )
+''');
 
     await db.execute('''
       CREATE TABLE reminders (
