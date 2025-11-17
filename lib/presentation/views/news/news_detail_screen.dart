@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../data/models/news_article.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../data/models/news_article.dart';
 
 class NewsDetailScreen extends StatelessWidget {
   @override

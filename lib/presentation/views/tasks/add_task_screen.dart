@@ -155,16 +155,28 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   Widget _buildConfirmButton() {
     return SizedBox(
       width: double.infinity,
-      child: ElevatedButton(
-        onPressed: _saveTask,
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          elevation: 8,
-          shadowColor: Colors.purple.withOpacity(0.4),
-          gradient: const LinearGradient(colors: [Color(0xFF6C5CE7), Color(0xFFA29AFE)]),
+      height: 56,
+      child: Material(
+        borderRadius: BorderRadius.circular(30),
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(30),
+          onTap: _saveTask,
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [Color(0xFF6C5CE7), Color(0xFFA29AFE)],
+              ),
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: const Center(
+              child: Text(
+                'Confirm',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+              ),
+            ),
+          ),
         ),
-        child: const Text('Confirm', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
       ),
     );
   }

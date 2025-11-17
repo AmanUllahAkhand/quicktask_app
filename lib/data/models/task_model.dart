@@ -1,16 +1,17 @@
 // lib/data/models/task_model.dart
+
 enum TaskCategory { work, personal, health, study }
 
 class Task {
-  int? id;
-  String title;
-  String? description;
-  bool isCompleted;
-  DateTime? dueDate;
-  TaskCategory category;
-  String? priority;
+  final int? id;
+  final String title;
+  final String? description;
+  final bool isCompleted;
+  final DateTime? dueDate;
+  final TaskCategory category;
+  final String? priority; // Low, Medium, High
 
-  Task({
+  const Task({
     this.id,
     required this.title,
     this.description,
@@ -20,6 +21,7 @@ class Task {
     this.priority,
   });
 
+  // Convert Task to Map for SQflite
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -32,18 +34,22 @@ class Task {
     };
   }
 
-  static Task fromMap(Map<String, dynamic> map) {
+  // Create Task from Map (from database)
+  factory Task.fromMap(Map<String, dynamic> map) {
     return Task(
-      id: map['id'],
-      title: map['title'],
-      description: map['description'],
-      isCompleted: map['isCompleted'] == 1,
-      dueDate: map['dueDate'] != null ? DateTime.parse(map['dueDate']) : null,
-      category: TaskCategory.values[map['category'] ?? 0],
-      priority: map['priority'],
+      id: map['id'] as int?,
+      title: map['title'] as String,
+      description: map['description'] as String?,
+      isCompleted: (map['isCompleted'] as int) == 1,
+      dueDate: map['dueDate'] != null
+          ? DateTime.parse(map['dueDate'] as String)
+          : null,
+      category: TaskCategory.values[map['category'] as int? ?? 0],
+      priority: map['priority'] as String?,
     );
   }
 
+  // CopyWith method (immutable update)
   Task copyWith({
     int? id,
     String? title,
@@ -63,4 +69,25 @@ class Task {
       priority: priority ?? this.priority,
     );
   }
+
+  // Optional: for debugging / logging
+  @override
+  String toString() {
+    return 'Task(id: $id, title: $title, completed: $isCompleted, category: $category, priority: $priority)';
+  }
+
+  // Optional: for future JSON API support
+  factory Task.fromJson(Map<String, dynamic> json) {
+    return Task(
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      isCompleted: json['isCompleted'] ?? false,
+      dueDate: json['dueDate'] != null ? DateTime.parse(json['dueDate']) : null,
+      category: TaskCategory.values[json['category'] ?? 0],
+      priority: json['priority'],
+    );
+  }
+
+  Map<String, dynamic> toJson() => toMap();
 }
